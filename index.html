@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+<div id="dt"></div>
+<canvas id='circles_demo'>Дольки</canvas>
+<br>
+<div id="description"></div>
+<input type="text" id="answer">
+<button onclick="state_machine()" id="button">Answer (only low case, no spaces)</button>
+<script>
+    let canvas = document.getElementById("circles_demo");
+    let context = canvas.getContext('2d');
+    canvas.height = 200;
+    canvas.width = 200;
+
+    let words = [];
+
+    function append_word(word, description) {
+        words.push({
+            word: word,
+            description: description
+        })
+    }
+
+    function _init() {
+        append_word("accuse", "to say that someone has done something bad")
+        append_word("all along", "from the beginning of a period of time")
+        append_word("anxious", "feeling or showing worry, nervousness, or unease about something with an uncertain outcome")
+        append_word("approach", "come near or nearer to (someone or something) in distance or time")
+        append_word("ash", "the powdery residue left after the burning of a substance.")
+        append_word("awake", "to prevent someone from sleeping")
+        append_word("astonished", "very surprised")
+        append_word("appetite", "the feeling that makes you want to eat")
+        append_word("aggressive", "behaving in an angry and violent way towards another person")
+        append_word("bargain", "something that is sold for less than its usual price or its real value")
+        append_word("bitter", "having a strong, sharp, usually unpleasant taste")
+        append_word("at rest", "not doing anything active, not moving")
+        append_word("audience", "the people who sit and watch a performance at a theatre," +
+            "cinema, etc.")
+        append_word("backpacker", "a person who travels with a backpack")
+        append_word("bandage", "a long piece of soft cloth that you tie around an injured part" +
+            "of the body")
+
+    }
+
+    _init();
+    words.sort(() => .5 - Math.random());
+
+    function part_1() {
+        context.strokeStyle = "black";
+        context.beginPath();
+        context.moveTo(40, 30);
+        context.lineTo(40, 120);
+        context.moveTo(40, 30);
+        context.lineTo(80, 30);
+        context.stroke();
+    }
+
+    function part_2() {
+        context.strokeStyle = "black";
+        context.beginPath();
+        context.moveTo(40, 120);
+        context.lineTo(40, 130);
+        context.moveTo(40, 120);
+        context.lineTo(30, 130);
+        context.moveTo(40, 120);
+        context.lineTo(50, 130);
+        context.stroke();
+    }
+
+    function part_3() {
+        context.strokeStyle = "black";
+        context.beginPath();
+        context.moveTo(80, 30);
+        context.lineTo(80, 40);
+        context.stroke();
+        context.beginPath()
+        context.arc(80, 50, 10, 0, Math.PI * 2, false);
+        context.stroke()
+    }
+
+    function part_4() {
+        context.strokeStyle = "black";
+        context.beginPath()
+        context.moveTo(80, 60)
+        context.lineTo(80, 100);
+        context.stroke()
+        context.beginPath()
+        context.moveTo(80, 60)
+        context.lineTo(60, 80);
+        context.stroke()
+        context.beginPath()
+        context.moveTo(80, 60)
+        context.lineTo(100, 80);
+        context.stroke()
+        context.beginPath()
+        context.moveTo(80, 100)
+        context.lineTo(90, 110);
+        context.stroke()
+        context.beginPath()
+        context.moveTo(80, 100)
+        context.lineTo(70, 110);
+        context.stroke()
+    }
+
+    function part_5() {
+        context.strokeStyle = "black";
+        context.beginPath()
+        context.moveTo(80, 50);
+        context.lineTo(75, 45)
+        context.stroke()
+        context.beginPath()
+        context.moveTo(75, 50);
+        context.lineTo(80, 45)
+        context.stroke()
+
+        context.beginPath()
+        context.moveTo(85, 50);
+        context.lineTo(80, 45)
+        context.stroke()
+
+        context.beginPath()
+        context.moveTo(85, 45);
+        context.lineTo(80, 50)
+        context.stroke()
+    }
+
+    function part_6() {
+        document.getElementById("dt").innerText = "You Are DEad (дед ю ноу?)"
+        context.beginPath()
+        context.arc(80, 60, 5, Math.PI, 0)
+        context.stroke()
+
+    }
+
+    let word = 0;
+    let errors = 0;
+
+    function show_word() {
+        if(word >= words.length){
+            hide_all();
+            document.getElementById("dt").innerText = "You Are Win (ака тайм ту гоу то нсу)"
+        }
+        document.getElementById("description").innerText = words[word].description
+        console.log("answer", words[word].word)
+
+    }
+
+    show_word();
+function hide_all(){
+    document.getElementById("answer").style.visibility="hidden";
+    document.getElementById("description").style.visibility="hidden";
+    document.getElementById("button").style.visibility="hidden";
+}
+    function state_machine() {
+        console.log(document.getElementById("answer").value)
+        if (document.getElementById("answer").value === words[word].word) {
+            word++;
+        } else {
+            switch (errors) {
+                case 0:
+                    part_1();
+                    break;
+                case 1:
+                    part_2();
+                    break;
+                case 2:
+                    part_3()
+                    break;
+                case 3:
+                    part_4();
+                    break;
+                case 4:
+                    part_5();
+                    break;
+                case 5:
+                    part_6();
+                    hide_all();
+                    break;
+            }
+            errors++;
+        }
+        show_word();
+    }
+</script>
+
+</body>
+</html>
